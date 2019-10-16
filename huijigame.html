@@ -30,7 +30,7 @@
         brownDark: 0x23190f,
         blue: 0x68c3c0
       };
-      let scene, camera, renderer, HEIGHT, WIDTH, fieldOfView, aspectRatio, container;
+      let scene, camera, renderer, HEIGHT, WIDTH, fieldOfView, aspectRatio, container, hemisphereLight, shadowLight;
 
       function init(){
         createScene(); // 场景/相机/渲染器
@@ -84,8 +84,32 @@
         camera.aspect = WIDTH / HEIGHT;
         camera.updateProjectionMatrix();
       }
+      
+      // ------------------------------------------------------------------------ 光源
+      function createLights() {
+        // hemisphereLight 半球光：渐变色光源， 参数1 天空色 参数2 大地色 参数3 光源的强度
+        // shadowLight 平行光：模拟太阳光
+        hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, 0.9);
+        shadowLight = new THREE.DirectionalLight(0xffffff, 0.9);
+        // 光源位置
+        shadowLight.position.set(150, 350, 350);
+        // 允许投射阴影
+        shadowLight.castShadow = true;
+        // 定义投射阴影的可见
+        shadowLight.shadow.camera.left = -400;
+        shadowLight.shadow.camera.right = 400;
+        shadowLight.shadow.camera.top = 400;
+        shadowLight.shadow.camera.bottom = -400;
+        shadowLight.shadow.camera.near = 1;
+        shadowLight.shadow.camera.far = 1000;
+        // 定义阴影的分辨率; 越高越好, 但性能越越低
+        shadowLight.shadow.mapSize.width = 2048;
+        shadowLight.shadow.mapSize.height = 2048;
+        // 光源添加到场景中
+        scene.add(hemisphereLight);
+        scene.add(shadowLight);
+      }
 
-      function createLights() {}
       function createSky() {}
       function createSea() {}
       function createPlane() {}
