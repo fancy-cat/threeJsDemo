@@ -19,13 +19,29 @@
     <script>
       // 定义一些颜色
       var Colors = {
-        red:0xf25346,
-        white:0xd8d0d1,
-        brown:0x59332e,
-        pink:0xF5986E,
-        brownDark:0x23190f,
-        blue:0x68c3c0
-    };
+        red: 0xf25346,
+        white: 0xd8d0d1,
+        brown: 0x59332e,
+        pink: 0xF5986E,
+        brownDark: 0x23190f,
+        blue: 0x68c3c0
+      };
+      let scene, camera;
+
+      function init(){
+        createScene(); // 场景/相机/渲染器
+        createLights();// 光源
+        createSky();   // 天空
+        createSea();   // 大海
+        createPlane(); // 飞机
+        loop();        // 循环加载
+      }
+      function createScene() {}
+      function createLights() {}
+      function createSky() {}
+      function createSea() {}
+      function createPlane() {}
+      function loop() {}
     </script>
 </body>
 </html>
