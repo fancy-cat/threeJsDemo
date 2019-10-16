@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>灰机游戏</title>
   <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
     #world {
       position: absolute;
       width: 100%;
@@ -26,7 +30,7 @@
         brownDark: 0x23190f,
         blue: 0x68c3c0
       };
-      let scene, camera;
+      let scene, camera, renderer, HEIGHT, WIDTH, fieldOfView, aspectRatio, container;
 
       function init(){
         createScene(); // 场景/相机/渲染器
@@ -36,12 +40,57 @@
         createPlane(); // 飞机
         loop();        // 循环加载
       }
-      function createScene() {}
+      function createScene() {
+        // 场景的大小，用来设置相机的长宽比和渲染器的尺寸
+        // ⚠️ 这里只获取了一次，当屏幕尺寸改变的时候，值需要重新获取设置
+        HEIGHT = window.innerHeight;
+        WIDTH = window.innerWidth;
+        container = document.querySelector('#world');
+
+        // ----------------------------------------------------------------------场景
+        scene = new THREE.Scene();
+        // 在场景中添加雾效; 颜色与css中背景颜色相同
+        // scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
+
+        // ----------------------------------------------------------------------相机
+        fieldOfView = 60;
+        aspectRatio = WIDTH/HEIGHT;
+        nearPlane = 1;
+        farPlane = 10000;
+        camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
+        // 相机坐标
+        camera.position.set(0, 200, 100);
+
+        // ----------------------------------------------------------------------渲染器
+        renderer = new THREE.WebGLRenderer({
+          alpha: true, // 允许背景透明，这样可以显示在css中定义的背景色
+          // antialias: true // 抗锯齿
+        });
+        // 渲染器尺寸
+        renderer.setSize(WIDTH, HEIGHT);
+        // 启用阴影渲染（need to test
+        renderer.shadowMap.enabled = true;
+        // 渲染器元素插入页面中
+        container.appendChild(renderer.domElement);
+
+        // 监听屏幕尺寸改变
+        window.addEventListener('resize', handleWindowResize, false);
+      }
+
+      function handleWindowResize() {
+        HEIGHT = window.innerHeight;
+        WIDTH = window.innerWidth;
+        renderer.setSize(WIDTH, HEIGHT);
+        camera.aspect = WIDTH / HEIGHT;
+        camera.updateProjectionMatrix();
+      }
+
       function createLights() {}
       function createSky() {}
       function createSea() {}
       function createPlane() {}
       function loop() {}
+
     </script>
 </body>
 </html>
