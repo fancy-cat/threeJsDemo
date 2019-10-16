@@ -17,6 +17,7 @@
       // 创建场景 
       // 场景/相机/渲染器
       scene = new THREE.Scene();
+      scene.background = new THREE.Color( '#fff' ); // 修改场景背景色
 
       // 相机分很多种，这是透视相机，模拟人眼
       // PerspectiveCamera(视野角度, 长宽比, 近截面, 远截面) 
@@ -32,8 +33,6 @@
       camera.lookAt(scene.position);//将相机快门的位置设置为场景的位置
 
       document.body.appendChild( renderer.domElement ); // canvas插入到页面中
-
-      var color = new THREE.Color( '#fff' );
 
       // 创建平面体
       function addPlane() {
@@ -112,7 +111,7 @@
         requestAnimationFrame(render);
         renderer.render(scene, camera);
       }
-      
+
       addPlane();
       addCube();
       addSphere();
