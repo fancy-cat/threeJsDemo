@@ -40,6 +40,7 @@
         createPlane(); // 飞机
         loop();        // 循环加载
       }
+
       function createScene() {
         // 场景的大小，用来设置相机的长宽比和渲染器的尺寸
         // ⚠️ 这里只获取了一次，当屏幕尺寸改变的时候，值需要重新获取设置
@@ -110,8 +111,25 @@
         scene.add(shadowLight);
       }
 
+      // ------------------------------------------------------------------------大海
+      function createSea() {
+        // 参数1: 顶部半径d1，参数2:底部半径d1, 参数3:圆柱的高度d1, 参数4: 圆柱侧面周围的分段数d8
+        var geom = new THREE.CylinderGeometry(600,600,800,40,10);
+        // 让它在X轴上旋转
+        geom.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
+        // 材质
+        var geomMaterial = new THREE.MeshBasicMaterial({
+          color:Colors.blue,
+          transparent:true,
+          opacity:.6,
+          flatShading: THREE.FlatShading
+        });
+        var mesh = new THREE.Mesh( geom, geomMaterial );
+        mesh.receiveShadow = true;
+        mesh.position.y = -300;
+        scene.add(mesh);
+      }
       function createSky() {}
-      function createSea() {}
       function createPlane() {}
       function loop() {}
 
