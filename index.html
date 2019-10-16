@@ -5,7 +5,7 @@
 		<title>My first three.js app</title>
 		<style>
 			body { margin: 0; }
-			#canvasWarp { width: 100%; height: 100% ;background: #fff}
+			#canvasWarp { width: 100%; height: 100%;}
 		</style>
 	</head>
 	<body>
@@ -13,7 +13,7 @@
 		<script>
       // Our Javascript will go here.
 
-      let scene, camera, renderer;
+      let scene, camera, renderer, plane, cube, sphere;
       // 创建场景 
       // 场景/相机/渲染器
       scene = new THREE.Scene();
@@ -27,8 +27,74 @@
       renderer.setSize( window.innerWidth, window.innerHeight ); // 场景尺寸，第三个参数为false，分辨率降半
       document.body.appendChild( renderer.domElement ); // canvas插入到页面中
 
+      var color = new THREE.Color( '#fff' );
 
+      // 创建平面体
+      function addPlane() {
+        // 着色器
+        var planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
+        // 材质
+        var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+        // 生成平面体
+        plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        // 开阴影效果
+        // plane.receiveShadow = true;
+        // 设置平面体的位置
+        plane.position.x = 16;
+        plane.position.y = 0;
+        plane.position.z = 0;
+        // plane.position.set(16, 0, 0);//也可以直接设置
+        //设置平面体的旋转
+        plane.rotation.x = -.5 * Math.PI;
+        // 将平面体加到场景中
+        scene.add(plane);
+      }
 
+      // 创建正方体
+      function addCube() {
+        // 着色器
+        var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+        // 材质
+        var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+        // 生成立方体
+        cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        // 打开阴影效果
+        cube.castShadow = true;
+        //设置立方体的位置
+        cube.position.x = -4;
+        cube.position.y = 3;
+        cube.position.z = 0;
+        //将立方体加入到场景当中
+        scene.add(cube);
+      }
+
+      // 创建球面体
+      function addSphere() {
+        // 着色器
+        var sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
+        // 材质
+        var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+        // 生成立方体
+        sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        // 阴影效果
+        sphere.castShadow = true;
+        // 设置位置
+        sphere.position.x = 20;
+        sphere.position.y = 0;
+        sphere.position.z = 2;
+        // 添加到场景中
+        scene.add(sphere);
+      }
+
+      function render() {
+        // requestAnimationFrame(render);
+        renderer.render(scene, camera);
+      }
+
+      addPlane();
+      addCube();
+      addSphere();
+      render();
 		</script>
 	</body>
 </html>
