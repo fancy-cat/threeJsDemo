@@ -13,6 +13,23 @@
 		<script>
       // Our Javascript will go here.
 
+      // 创建场景 
+      function init() {
+        // 场景/相机/渲染器
+        let scene = new THREE.Scene();
+
+        // 相机分很多种，这是透视相机，模拟人眼
+        // PerspectiveCamera(视野角度, 长宽比, 近截面, 远截面) 
+        // >远截面 or <近截面 不显示
+        let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, .1, 1000)
+
+        var renderer = new THREE.WebGLRenderer();// 创建场景
+        renderer.setSize( window.innerWidth, window.innerHeight ); // 场景尺寸，第三个参数为false，分辨率降半
+        document.body.appendChild( renderer.domElement ); // canvas插入到页面中
+      }
+
+      init();
+
 		</script>
 	</body>
 </html>
