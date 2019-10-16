@@ -40,7 +40,6 @@
         createPlane(); // 飞机
         loop();        // 循环加载
       }
-
       function createScene() {
         // 场景的大小，用来设置相机的长宽比和渲染器的尺寸
         // ⚠️ 这里只获取了一次，当屏幕尺寸改变的时候，值需要重新获取设置
@@ -126,12 +125,16 @@
         });
         var mesh = new THREE.Mesh( geom, geomMaterial );
         mesh.receiveShadow = true;
-        mesh.position.y = -300;
+        mesh.position.y = -500; // 这个是怎么算的
         scene.add(mesh);
       }
       function createSky() {}
       function createPlane() {}
-      function loop() {}
+      function loop() {
+        renderer.render(scene, camera);
+      }
+
+      init()
 
     </script>
 </body>
