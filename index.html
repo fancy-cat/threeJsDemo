@@ -25,6 +25,12 @@
 
       renderer = new THREE.WebGLRenderer();// 创建场景
       renderer.setSize( window.innerWidth, window.innerHeight ); // 场景尺寸，第三个参数为false，分辨率降半
+
+      camera.position.x = 0;
+      camera.position.y = 40;
+      camera.position.z = 30;
+      camera.lookAt(scene.position);//将相机快门的位置设置为场景的位置
+
       document.body.appendChild( renderer.domElement ); // canvas插入到页面中
 
       var color = new THREE.Color( '#fff' );
@@ -38,7 +44,7 @@
         // 生成平面体
         plane = new THREE.Mesh(planeGeometry, planeMaterial);
         // 开阴影效果
-        // plane.receiveShadow = true;
+        plane.receiveShadow = true;
         // 设置平面体的位置
         plane.position.x = 16;
         plane.position.y = 0;
@@ -79,22 +85,40 @@
         // 阴影效果
         sphere.castShadow = true;
         // 设置位置
-        sphere.position.x = 20;
+        sphere.position.x = 10;
         sphere.position.y = 0;
         sphere.position.z = 2;
         // 添加到场景中
         scene.add(sphere);
       }
-
-      function render() {
-        // requestAnimationFrame(render);
-        renderer.render(scene, camera);
+      // 创建光源
+      function addSpotLight() {
+        spotLight = new THREE.SpotLight(0xffffff, 1);
+        spotLight.position.set(-40, 60, -10);
+        spotLight.castShadow = true;
+        spotLight.shadow.mapSize.width = 2048;
+        spotLight.shadow.mapSize.height = 2048;
+        scene.add(spotLight);
       }
 
+
+      function render() {
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        cube.rotation.z += 0.01;
+
+        sphere.position.x += 0.01;
+        sphere.position.y += 0.01;
+        requestAnimationFrame(render);
+        renderer.render(scene, camera);
+      }
+      
       addPlane();
       addCube();
       addSphere();
+      addSpotLight();
       render();
+
 		</script>
 	</body>
 </html>
